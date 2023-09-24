@@ -1,0 +1,54 @@
+//Основной класс Animal
+
+public class Animal {
+    private String name;
+    public String getName() {
+        return name;
+    }
+    private String type_of_animal;
+    public Animal(String name, String type_of_animal) {
+        this.name=name;
+        this.type_of_animal=type_of_animal;
+    }
+    public void voice() {
+        System.out.println(name +" is " + type_of_animal + " and he" + " makes a sound");
+    }
+}
+
+
+//Наследуемый класс Dog
+
+public class Dog extends Animal{
+    public Dog(String name, String type_of_animal) {
+        super(name, type_of_animal);
+    }
+    public void Move() {
+        System.out.println(super.getName()+" is running\n");
+    }
+}
+
+//Наследуемый класс Cat
+
+public class Cat extends Animal{
+    public Cat(String name, String type_of_animal) {
+        super(name, type_of_animal);
+    }
+    public void Move() {
+        System.out.println(super.getName()+" is jumping");
+    }
+}
+
+// Класс Main_for_Animals
+
+public class Main_for_Animals {
+    public static void main(String[] args) {
+        Dog dog=new Dog("Bucky","dog");
+        dog.voice();
+        dog.Move();
+        Cat cat=new Cat("Barsik", "cat");
+        cat.Move();
+        cat.voice();
+    }
+}
+
+
