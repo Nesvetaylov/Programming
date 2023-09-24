@@ -1,0 +1,51 @@
+//Основной класс  Figure
+
+public class Figure {
+    private String color;
+    public Figure(String color) {
+        this.color=color;
+    }
+    public void draw() {
+        System.out.println("Draw a figure");
+    }
+}
+
+//Наследующий класс Square
+
+public class Square extends Figure {
+    public Square(String color) {
+        super(color);
+    }
+    public double calculateArea(double sideLength) {
+        return sideLength*sideLength;
+    }
+}
+
+//Наследующий класс Circle
+
+public class Circle extends Figure{
+    public Circle(String color) {
+        super(color);
+    }
+    public double calculateArea(double radius) {
+        return Math.PI*radius*radius;
+    }
+}
+
+//Класс Main
+
+public class Main {
+    public static void main(String[] args) {
+        Square square=new Square("Red");
+        double squareArea=square.calculateArea(5.0);
+        System.out.println("Ploshad of square is: "+squareArea);
+        Circle circle=new Circle("Blue");
+        double circleArea=circle.calculateArea(3.0);
+        System.out.println("Radius of circle is: "+circleArea);
+    }
+}
+
+
+
+ 
+
