@@ -1,0 +1,4 @@
+﻿  Server.cpp
+C:\Users\Администратор\Desktop\KUBSU files\lab_1\Server\Server\Server.cpp(23,22): warning C4244: =: преобразование "std::streamoff" в "long", возможна потеря данных
+C:\Users\Администратор\Desktop\KUBSU files\lab_1\Server\Server\Server.cpp(40,23): warning C4244: =: преобразование "std::streamoff" в "long", возможна потеря данных
+  Server.vcxproj -> C:\Users\Администратор\Desktop\KUBSU files\lab_1\Server\x64\Debug\Server.exe

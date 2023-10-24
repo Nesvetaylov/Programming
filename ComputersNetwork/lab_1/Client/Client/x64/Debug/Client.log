@@ -1,0 +1,4 @@
+﻿  Client.cpp
+C:\Users\Администратор\Desktop\KUBSU files\lab_1\Client\Client\Client.cpp(12,13): warning C4326: возвращаемый тип "main" должен быть "int", а не "void"
+C:\Users\Администратор\Desktop\KUBSU files\lab_1\Client\Client\Client.cpp(33,26): warning C4244: =: преобразование "std::streamoff" в "long", возможна потеря данных
+  Client.vcxproj -> C:\Users\Администратор\Desktop\KUBSU files\lab_1\Client\x64\Debug\Client.exe
