@@ -1,0 +1,6 @@
+﻿  Client_2.cpp
+C:\Users\Администратор\Desktop\KUBSU files\lab_2\Client\Client\Client_2.cpp(19,13): warning C4326: возвращаемый тип "main" должен быть "int", а не "void"
+C:\Users\Администратор\Desktop\KUBSU files\lab_2\Client\Client\Client_2.cpp(21,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\Администратор\Desktop\KUBSU files\lab_2\Client\Client\Client_2.cpp(58,28): warning C4244: =: преобразование "std::streamoff" в "long", возможна потеря данных
+C:\Users\Администратор\Desktop\KUBSU files\lab_2\Client\Client\Client_2.cpp(63,27): warning C4244: =: преобразование "std::streamoff" в "long", возможна потеря данных
+  Client.vcxproj -> C:\Users\Администратор\Desktop\KUBSU files\lab_2\Client\x64\Debug\Client.exe

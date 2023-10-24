@@ -1,0 +1,5 @@
+﻿  Server_2.cpp
+C:\Users\Администратор\Desktop\KUBSU files\lab_2\Server\Server\Server_2.cpp(71,36): warning C4244: =: преобразование "std::streamoff" в "long", возможна потеря данных
+C:\Users\Администратор\Desktop\KUBSU files\lab_2\Server\Server\Server_2.cpp(94,38): warning C4244: =: преобразование "std::streamoff" в "long", возможна потеря данных
+C:\Users\Администратор\Desktop\KUBSU files\lab_2\Server\Server\Server_2.cpp(50): warning C4715: Stipendia: значение возвращается не при всех путях выполнения
+  Server.vcxproj -> C:\Users\Администратор\Desktop\KUBSU files\lab_2\Server\x64\Debug\Server.exe
