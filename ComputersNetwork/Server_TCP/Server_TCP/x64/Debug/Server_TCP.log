@@ -1,0 +1,4 @@
+﻿  Server_TCP.cpp
+C:\Users\s0177267\source\repos\Server_TCP\Server_TCP\Server_TCP.cpp(40,45): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\s0177267\source\repos\Server_TCP\Server_TCP\Server_TCP.cpp(42,47): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  Server_TCP.vcxproj -> C:\Users\s0177267\source\repos\Server_TCP\x64\Debug\Server_TCP.exe
