@@ -1,0 +1,3 @@
+﻿  SERVER_TCP_struct.cpp
+C:\Users\Администратор\Desktop\KUBSU files\ComputersNetwork\Client_TCP_struct\Server_TCP_struct\SERVER_TCP_struct\SERVER_TCP_struct\SERVER_TCP_struct.cpp(42,45): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+  SERVER_TCP_struct.vcxproj -> C:\Users\Администратор\Desktop\KUBSU files\ComputersNetwork\Client_TCP_struct\Server_TCP_struct\SERVER_TCP_struct\x64\Debug\SERVER_TCP_struct.exe
