@@ -1,7 +1,14 @@
-//#include <iostream> 
-//#include <cmath> 
+#include <iostream> 
+#include <cmath> 
+#define _USE_MATH_DEFINES 
+#include <math.h> 
+#include <vector>
+#include <iomanip> 
+#include <sstream>
+#include <algorithm>
+#include <chrono>
 
-//using namespace std;
+using namespace std;
 
 
    // (1) ЗАДАНИЕ
@@ -84,141 +91,80 @@ int main() {
 
 
 
-//  (3) ЗАДАНИЕ
+//(3) ЗАДАНИЕ
 /*
-double phi(double x, int n, bool print_terms = false) {
+double func3(double x, double accuracy = 3e-8) {
+    double term = 1 / sqrt(1 + x) - 1 / sqrt(1 - x);
+    int k = 2;
     double sum = 0;
-    for (int k = 1; k <= n; ++k) {
-        double term = 1.0 / (k * (k + x));
+    while (fabs(term) > accuracy) {
         sum += term;
-        if (print_terms) {
-            cout << "k = " << k << ", term = " << term << endl;
-        }
+        term = 1 / sqrt(pow(k, 3) + x) - 1 / sqrt(pow(k, 3) - x);
+        k++;
     }
     return sum;
 }
 
-int main() {
-    setlocale(LC_ALL, "Rus");
-    for (double x = 0; x <= 1.0; x += 0.1) {
-        int n = 1;
-        double prev_sum = phi(x, n);
-        double sum = phi(x, n + 1);
-        while (abs(sum - prev_sum) > 0.5e-8) {
-            n++;
-            prev_sum = sum;
-            sum = phi(x, n);
-        }
-        cout << "x = " << x << ", sum = " << sum << endl;
-        cout << "Члены суммирования для n = " << n << ":" << endl;
-        phi(x, n, true);
-        cout << endl;
+double func31(double x, double accuracy = 3e-8) {
+    double term = 1 / sqrt(1 + x) - 1 / sqrt(1 - x);
+    int k = 2;
+    double sum = 0;
+    while (fabs(term) > accuracy) {
+        sum += term;
+        term = 1 / sqrt(pow(k, 3) + x) - 1 / sqrt(pow(k, 3) - x);
+        k++;
     }
-    return 0;
+    return k;
+}
+
+int main() {
+    for (double x = 0; x < 1; x += 0.1) {
+        double F = func3(x);
+        cout << "x: " << x << ", F(x): " << F << ", k: " << func31(x) << ", Time: " << func31(x) * 500 << "ms" << endl;
+    }
+    cout << endl;
+    cout << "x: " << 0.5 << ", F(x): " << func3(0.5) << endl;
+    cout << "x: " << 0.999999999 << ", F(x): " << func3(0.999999999) << endl;
 }
 */
-
-
 
 
 
 //(4) ЗАДАНИЕ
-
-
 /*
-double phi(double x) {
+int main()
+{
+    double term = 0.5;
+    double k1 = 2;
     double sum = 0;
-    for (int k = 1; k <= 10000; k++) {
-        sum += 1.0 / (k * (k + x));
+    double accuracy = 1e-10;
+
+    auto start_time = chrono::high_resolution_clock::now();
+    while (fabs(term) > accuracy) {
+        sum += term;
+        term = 1 / (k1 * k1 + 1);
+        k1++;
     }
-    return sum;
-}
+    auto end_time = chrono::high_resolution_clock::now();
+    chrono::duration<double> duration = end_time - start_time;
+    double time1 = duration.count();
 
-int main() {
-    double sum = 1.0 / 6 - 1.0 / 90;
-    int numTerms = 0;
-    for (int n = 4; n <= 10000; n++) {
-        sum += 1.0 / (n * (n + 1));
-        numTerms++;
+    double term1 = pow(M_PI, 2) / 6 - pow(M_PI, 4) / 90 + 0.5;
+    double k2 = 2;
+    double sum1 = 0;
+
+    start_time = chrono::high_resolution_clock::now();
+    while (fabs(term1) > accuracy) {
+        sum1 += term1;
+        term1 = 1 / (pow(k2, 4) * (k2 * k2 + 1));
+        k2++;
     }
+    end_time = chrono::high_resolution_clock::now();
+    duration = end_time - start_time;
+    double time2 = duration.count();
 
-    cout << "Number of terms: " << numTerms << endl;
-    cout << "The value of the sum is: " << sum << endl;
-
-    return 0;
-}
-*/
-
-
-
-
-//Хорошая формула
-
-#include <iostream>
-#include <chrono>
-
-using namespace std;
-
-double phi(double x) {
-    double sum = 0;
-    for (int k = 1; k <= 10000; k++) {
-        sum += 1.0 / (k * (k + x));
-    }
-    return sum;
-}
-
-int main() {
-    auto start = chrono::high_resolution_clock::now();
-
-    double sum = 1.0 / 6 - 1.0 / 90;
-    int numTerms = 0;
-    for (int n = 4; n <= 10000; n++) {
-        sum += 1.0 / (n * (n + 1));
-        numTerms++;
-    }
-
-    auto end = chrono::high_resolution_clock::now();
-    chrono::duration<double> elapsed = end - start;
-
-    cout << "Number of terms: " << numTerms << endl;
-    cout << "The value of the sum is: " << sum << endl;
-    cout << "Time elapsed: " << elapsed.count() << " seconds" << endl;
-
-    return 0;
-}
-
-
-
-/*
-#include <iostream>
-#include <cmath>
-#include <chrono>
-
-using namespace std;
-
-int main() {
-    setlocale(LC_ALL, "Rus");
-    // Начало отсчета времени
-    auto start = chrono::high_resolution_clock::now();
-
-    double sum = 0;
-    int n = 1;
-    double error = 1;
-
-    while (error > 1e-10) {
-        sum += 1.0 / (n * n + 1);
-        error = 1.0 / (n * n + 1);
-        n++;
-    }
-
-    // Конец отсчета времени
-    auto end = chrono::high_resolution_clock::now();
-
-    // Вычисление времени выполнения
-    chrono::duration<double> elapsed_seconds = end - start;
-
-    cout << "Сумма ряда: " << sum << endl;
-    cout << "Время вычисления: " << elapsed_seconds.count() << " секунд" << endl;
+    cout << "F(x) : " << sum << ", k1: " << k1 << ", time: " << time1 << " seconds" << endl;
+    cout << "F2(X) : " << sum1 << ", k2: " << k2 << ", time: " << time2 << " seconds" << endl;
 
     return 0;
 }
@@ -229,64 +175,211 @@ int main() {
 
 //----------------------- 2 ЛАБА
 /*
-#include <iostream>
-#include <cmath>
-#include <limits>
+   int sign(double b)
+{
+    if (b == 0)return 0;
+    if (b > 0)return 1;
+    else return -1;
+}
+bool roots(double a, double b, double c) {
+    return b * b - 4 * a * c > 1e-10;
+}
+int main() {
+    setlocale(LC_ALL, "Rus");
+    double accuracy = 10e+30;
+    double a, b, c, x1, x2, x3, x4;
+    cout << "Введите a, b, c: ";
+    cin >> a >> b >> c;
+       //a *= accuracy;
+       //b *= accuracy;
+       //c *= accuracy;
+if (b == 0 && c != 0) {
+    cout << "Нет" << endl;
+    return 0;
+}
+double d = b * b - 4 * a * c;
+if (!roots(a, b, c)) {
+    cout << "Нет допустимых корней" << endl;
+    return 0;
+}
+if (abs(d) < 1e-10) {
+    x1 = x2 = -b / (2 * a);
+}
+else {
+    x1 = (-b + sqrt(d)) / (2 * a);
+    x2 = (-b - sqrt(d)) / (2 * a);
+    x3 = -(b + sign(b) * sqrt(b * b - 4 * a * c)) / (2 * a);
+    x4 = c / (a * x3);
+}
+cout << endl << "x1 = " << x1 << endl;
+cout << "x2 = " << x2 << endl;
+cout << endl << "x3 = " << x3 << endl;
+cout << "x4 = " << x4 << endl;
+return 0;
+}
+*/
 
-using namespace std;
+//Корни:
+//1) 1 5 6
 
-// Функция для решения квадратного уравнения
-pair<double, double> solveQuadraticEquation(double a, double b, double c) {
-    // Проверка на нулевой коэффициент при x^2
-    if (abs(a) < numeric_limits<double>::epsilon()) {
-        // Если a равно нулю, уравнение линейное
-        if (abs(b) < numeric_limits<double>::epsilon()) {
-            // Если b также равно нулю, то уравнение не имеет решения
-            return make_pair(numeric_limits<double>::quiet_NaN(), numeric_limits<double>::quiet_NaN());
+
+//----------------------- 3 ЛАБА
+
+
+
+
+// Функция для выполнения гауссова исключения
+vector<vector<double>> gaussianElimination(vector<vector<double>> matrix) {
+    int n = matrix.size();
+    int m = matrix[0].size() - 1; // Количество переменных
+
+    // Прямое исключение
+    for (int i = 0; i < n; ++i) {
+        // Найти опорный элемент
+        double pivot = matrix[i][i];
+        if (fabs(pivot) < 1e-6) {
+            // Если опорный элемент равен нулю, поменять местами с строкой ниже
+            bool foundPivot = false;
+            for (int j = i + 1; j < n; ++j) {
+                if (fabs(matrix[j][i]) > 1e-6) {
+                    swap(matrix[i], matrix[j]);
+                    pivot = matrix[i][i];
+                    foundPivot = true;
+                    break;
+                }
+            }
+            if (!foundPivot) {
+                cout << "Не существует единственного решения." << endl;
+                return matrix;
+            }
         }
-        else {
-            // Решение линейного уравнения
-            return make_pair(-c / b, numeric_limits<double>::quiet_NaN());
+
+        // Разделить строку на опорный элемент
+        for (int j = i; j <= m; ++j) {
+            matrix[i][j] /= pivot;
+        }
+
+        // Устранить переменную из строк ниже
+        for (int j = i + 1; j < n; ++j) {
+            double factor = matrix[j][i];
+            for (int k = i; k <= m; ++k) {
+                matrix[j][k] -= factor * matrix[i][k];
+            }
         }
     }
 
-    // Вычисление дискриминанта
-    double discriminant = b * b - 4 * a * c;
-
-    // Проверка на отрицательный дискриминант
-    if (discriminant < 0) {
-        // Уравнение не имеет действительных корней
-        return make_pair(numeric_limits<double>::quiet_NaN(), numeric_limits<double>::quiet_NaN());
+    // Обратное исключение
+    for (int i = n - 1; i >= 0; --i) {
+        // Устранить переменную из строк выше
+        for (int j = i - 1; j >= 0; --j) {
+            double factor = matrix[j][i];
+            for (int k = i; k <= m; ++k) {
+                matrix[j][k] -= factor * matrix[i][k];
+            }
+        }
     }
 
-    // Вычисление корней
-    double x1 = (-b + sqrt(discriminant)) / (2 * a);
-    double x2 = (-b - sqrt(discriminant)) / (2 * a);
-
-    return make_pair(x1, x2);
+    return matrix;
 }
 
 int main() {
     setlocale(LC_ALL, "Rus");
-    double a, b, c;
+    // Пример 1: 10*x₁ + x₂ = 1, x₁ + 2x₂ = 4
+    vector<vector<double>> matrix1 = {
+        {10, 1, 1},
+        {1, 2, 4}
+    };
 
-    cout << "Введите коэффициенты a, b, c для уравнения ax^2 + bx + c = 0: ";
-    cin >> a >> b >> c;
-
-    // Вычисление корней квадратного уравнения
-    pair<double, double> roots = solveQuadraticEquation(a, b, c);
-
-    // Вывод результатов
-    if (isnan(roots.first) && isnan(roots.second)) {
-        cout << "Уравнение не имеет действительных корней." << endl;
+    cout << "Введенная 1:" << endl;
+    for (int i = 0; i < matrix1.size(); ++i) {
+        for (int j = 0; j < matrix1[0].size() - 1; ++j) {
+            if (matrix1[i][j] >= 0) {
+                cout << "+ " << matrix1[i][j] << "x" << j + 1 << " ";
+            }
+            else {
+                cout << "- " << -matrix1[i][j] << "x" << j + 1 << " ";
+            }
+        }
+        if (matrix1[i][matrix1[0].size() - 1] >= 0) {
+            cout << " = " << matrix1[i][matrix1[0].size() - 1] << endl;
+        }
+        else {
+            cout << " = " << -matrix1[i][matrix1[0].size() - 1] << endl;
+        }
     }
-    else if (isnan(roots.second)) {
-        cout << "Уравнение имеет один корень: " << roots.first << endl;
+
+    matrix1 = gaussianElimination(matrix1);
+
+    cout << "Выведенная 1:" << endl;
+    for (int i = 0; i < matrix1.size(); ++i) {
+        cout << "x" << i + 1 << " = " << fixed << setprecision(2) << matrix1[i][matrix1[0].size() - 1] << endl;
     }
-    else {
-        cout << "Уравнение имеет два корня: " << roots.first << " и " << roots.second << endl;
+
+    // Пример 2: 2.34x₁ - 4.21x₂ - 11.61x₃ = 14.41, 8.04x₁ + 5.22x₂ + 0.27x₃ = -6.44, 3.92x₁ - 7.99x₂ + 8.37x₃ = 55.56
+    vector<vector<double>> matrix2 = {
+        {2.34, -4.21, -11.61, 14.41},
+        {8.04, 5.22, 0.27, -6.44},
+        {3.92, -7.99, 8.37, 55.56}
+    };
+
+    cout << "Введенная 2:" << endl;
+    for (int i = 0; i < matrix2.size(); ++i) {
+        for (int j = 0; j < matrix2[0].size() - 1; ++j) {
+            if (matrix2[i][j] >= 0) {
+                cout << "+ " << matrix2[i][j] << "x" << j + 1 << " ";
+            }
+            else {
+                cout << "- " << -matrix2[i][j] << "x" << j + 1 << " ";
+            }
+        }
+        if (matrix2[i][matrix2[0].size() - 1] >= 0) {
+            cout << " = " << matrix2[i][matrix2[0].size() - 1] << endl;
+        }
+        else {
+            cout << " = " << -matrix2[i][matrix2[0].size() - 1] << endl;
+        }
+    }
+
+    matrix2 = gaussianElimination(matrix2);
+
+    cout << "Выведенная 2:" << endl;
+    for (int i = 0; i < matrix2.size(); ++i) {
+        cout << "x" << i + 1 << " = " << fixed << setprecision(2) << matrix2[i][matrix2[0].size() - 1] << endl;
+    }
+
+    // Пример 3: 4.43x₁ - 7.21x₂ + 8.05x₃ + 1.23x₄ - 2.56x₅ = 2.62, -1.29x₁ + 6.47x₂ + 2.96x₃ + 3.22x₄ + 6.12x₅ = -3.97, 6.12x₁ + 8.31x₂ + 9.41x₃ + 1.78x₄ - 2.88x₅ = -9.12, -2.57x₁ + 6.93x₂ - 3.74x₃ + 7.41x₄ + 5.55x₅ = 8.11, 1.46x₁ + 3.62x₂ + 7.83x₃ + 6.25x₄ - 2.35x₅ = 7.23
+    vector<vector<double>> matrix3 = {
+        {4.43, -7.21, 8.05, 1.23, -2.56, 2.62},
+        {-1.29, 6.47, 2.96, 3.22, 6.12, -3.97},
+        {6.12, 8.31, 9.41, 1.78, -2.88, -9.12},
+        {-2.57, 6.93, -3.74, 7.41, 5.55, 8.11},
+        {1.46, 3.62, 7.83, 6.25, -2.35, 7.23}
+    };
+
+    cout << "Введенная 3:" << endl;
+    for (int i = 0; i < matrix3.size(); ++i) {
+        for (int j = 0; j < matrix3[0].size() - 1; ++j) {
+            if (matrix3[i][j] >= 0) {
+                cout << "+ " << matrix3[i][j] << "x" << j + 1 << " ";
+            }
+            else {
+                cout << "- " << -matrix3[i][j] << "x" << j + 1 << " ";
+            }
+        }
+        if (matrix3[i][matrix3[0].size() - 1] >= 0) {
+            cout << " = " << matrix3[i][matrix3[0].size() - 1] << endl;
+        }
+        else {
+            cout << " = " << -matrix3[i][matrix3[0].size() - 1] << endl;
+        }
+    }
+
+    matrix3 = gaussianElimination(matrix3);
+
+    cout << "Выведенная 3:" << endl;
+    for (int i = 0; i < matrix3.size(); ++i) {
+        cout << "x" << i + 1 << " = " << fixed << setprecision(2) << matrix3[i][matrix3[0].size() - 1] << endl;
     }
 
     return 0;
 }
-*/
