@@ -388,3 +388,221 @@ int main() {
     return 0;
 }
 
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+// ... (функции f, dfx1, dfx2, t_k остаются без изменений)
+
+int main() {
+    double x[2] = {1.5, 0.1};
+    double dx[2], dk[2];
+    double newx[2];
+    double Hrev[4] = {0.51613, 0.03125, 0.03125, 0.0625};
+    double E1 = 0.1, E2 = 0.15;
+    int M = 10;
+    int k = 0;
+    bool stopNext = false;
+    string stopReason = "Алгоритм не сошелся (неизвестная причина)";
+
+    while (true) {
+        cout << "\nk = " << k;
+        cout << "\nx = (" << x[0] << ", " << x[1] << ")\n";
+
+        dx[0] = dfx1(x[0], x[1]);
+        dx[1] = dfx2(x[0], x[1]);
+        double gradNorm = sqrt(dx[0]*dx[0] + dx[1]*dx[1]);
+
+        if ((gradNorm < E1 || k >= M) && stopNext) {
+            if (gradNorm < E1) stopReason = "Норма градиента < E1 дважды подряд";
+            else stopReason = "Достигнут лимит итераций M дважды подряд";
+            break;
+        } else if (gradNorm < E1 || k >= M) {
+            stopNext = true;
+        }
+
+        // Вычисление направления
+        if (Hrev[0] * Hrev[3] - Hrev[2] * Hrev[1] > 0) {
+            dk[0] = -1 * (Hrev[0] * dx[0] + Hrev[1] * dx[1]);
+            dk[1] = -1 * (Hrev[2] * dx[0] + Hrev[3] * dx[1]);
+        } else {
+            dk[0] = -1 * dx[0];
+            dk[1] = -1 * dx[1];
+        }
+
+        double tk_val = t_k(x[0], x[1], dk[0], dk[1]);
+        newx[0] = x[0] + tk_val * dk[0];
+        newx[1] = x[1] + tk_val * dk[1];
+
+        double stepNorm = sqrt(pow(newx[0] - x[0], 2) + pow(newx[1] - x[1], 2));
+        double funcDiff = abs(f(newx[0], newx[1]) - f(x[0], x[1]));
+
+        if (stepNorm < E2 && funcDiff < E2) {
+            if (stopNext) {
+                stopReason = "Шаг и изменение функции < E2 дважды подряд";
+                break;
+            }
+            stopNext = true;
+        }
+
+        x[0] = newx[0];
+        x[1] = newx[1];
+        k++;
+    }
+
+    cout << "\nИтераций: " << k;
+    cout << "\nПричина остановки: " << stopReason;
+    cout << "\nx* = (" << x[0] << ", " << x[1] << ")\n";
+    cout << "f(x*) = " << f(x[0], x[1]) << "\n";
+    return 0;
+}
+
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+// ... (функции f, dfx1, dfx2 остаются без изменений)
+
+int main() {
+    double x[2] = {1.5, 0.1};
+    double dx[2], dk[2];
+    double newx[2];
+    double Hrev[4] = {0.51613, 0.03125, 0.03125, 0.0625};
+    double E1 = 0.1, E2 = 0.15;
+    int M = 10;
+    int k = 0;
+    bool stopNext = false;
+    string stopReason = "Алгоритм не сошелся (неизвестная причина)";
+
+    while (true) {
+        cout << "\nk = " << k;
+        cout << "\nx = (" << x[0] << ", " << x[1] << ")\n";
+
+        dx[0] = dfx1(x[0], x[1]);
+        dx[1] = dfx2(x[0], x[1]);
+        double gradNorm = sqrt(dx[0]*dx[0] + dx[1]*dx[1]);
+
+        if ((gradNorm < E1 || k >= M) && stopNext) {
+            if (gradNorm < E1) stopReason = "Норма градиента < E1 дважды подряд";
+            else stopReason = "Достигнут лимит итераций M дважды подряд";
+            break;
+        } else if (gradNorm < E1 || k >= M) {
+            stopNext = true;
+        }
+
+        // Вычисление направления
+        if (Hrev[0] * Hrev[3] - Hrev[2] * Hrev[1] > 0) {
+            dk[0] = -1 * (Hrev[0] * dx[0] + Hrev[1] * dx[1]);
+            dk[1] = -1 * (Hrev[2] * dx[0] + Hrev[3] * dx[1]);
+        } else {
+            dk[0] = -1 * dx[0];
+            dk[1] = -1 * dx[1];
+        }
+
+        newx[0] = x[0] + dk[0];
+        newx[1] = x[1] + dk[1];
+
+        double stepNorm = sqrt(pow(newx[0] - x[0], 2) + pow(newx[1] - x[1], 2));
+        double funcDiff = abs(f(newx[0], newx[1]) - f(x[0], x[1]));
+
+        if (stepNorm < E2 && funcDiff < E2) {
+            if (stopNext) {
+                stopReason = "Шаг и изменение функции < E2 дважды подряд";
+                break;
+            }
+            stopNext = true;
+        }
+
+        x[0] = newx[0];
+        x[1] = newx[1];
+        k++;
+    }
+
+    cout << "\nИтераций: " << k;
+    cout << "\nПричина остановки: " << stopReason;
+    cout << "\nx* = (" << x[0] << ", " << x[1] << ")\n";
+    cout << "f(x*) = " << f(x[0], x[1]) << "\n";
+    return 0;
+}
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+// ... (функции f, dfx1, dfx2, t_k остаются без изменений)
+
+int main() {
+    double x[2] = {1.5, 0.1};
+    double dx[2] = {0, 0}, dk[2] = {0, 0}, olddx[2] = {0, 0};
+    double newx[2];
+    double E1 = 0.1, E2 = 0.15;
+    double B;
+    int M = 10;
+    int k = 0, iter = -1;
+    bool flag = false;
+    string stopReason = "Алгоритм не сошелся (неизвестная причина)";
+
+    while (true) {
+        cout << "\nk = " << k;
+        cout << "\nx = (" << x[0] << ", " << x[1] << ")\n";
+
+        olddx[0] = dx[0];
+        olddx[1] = dx[1];
+
+        dx[0] = dfx1(x[0], x[1]);
+        dx[1] = dfx2(x[0], x[1]);
+        double gradNorm = sqrt(dx[0]*dx[0] + dx[1]*dx[1]);
+
+        // Условие остановки по градиенту или итерациям
+        if (gradNorm < E1 || k >= M) {
+            if (flag && iter == k - 1) {
+                if (gradNorm < E1) stopReason = "Норма градиента < E1 дважды подряд";
+                else stopReason = "Достигнут лимит итераций M дважды подряд";
+                break;
+            }
+            flag = true;
+            iter = k;
+        }
+
+        // Вычисление направления
+        if (k == 0) {
+            dk[0] = -dx[0];
+            dk[1] = -dx[1];
+        } else {
+            double temp = gradNorm / sqrt(olddx[0]*olddx[0] + olddx[1]*olddx[1]);
+            B = temp * temp;
+            dk[0] = -dx[0] + B * dk[0];
+            dk[1] = -dx[1] + B * dk[1];
+        }
+
+        double tk_val = t_k(x[0], x[1], dk[0], dk[1]);
+        newx[0] = x[0] + tk_val * dk[0];
+        newx[1] = x[1] + tk_val * dk[1];
+
+        double stepNorm = sqrt(pow(newx[0] - x[0], 2) + pow(newx[1] - x[1], 2));
+        double funcDiff = abs(f(newx[0], newx[1]) - f(x[0], x[1]));
+
+        // Условие остановки по шагу и значению функции
+        if (stepNorm < E2 && funcDiff < E2) {
+            if (flag && iter == k - 1) {
+                stopReason = "Шаг и изменение функции < E2 дважды подряд";
+                break;
+            }
+            flag = true;
+            iter = k;
+        }
+
+        x[0] = newx[0];
+        x[1] = newx[1];
+        k++;
+    }
+
+    cout << "\nИтераций: " << k;
+    cout << "\nПричина остановки: " << stopReason;
+    cout << "\nx* = (" << x[0] << ", " << x[1] << ")\n";
+    cout << "f(x*) = " << f(x[0], x[1]) << "\n";
+    return 0;
+}
+
