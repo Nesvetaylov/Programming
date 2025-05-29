@@ -309,3 +309,82 @@ int main() {
     return 0;
 }
 
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+double f(double x1, double x2) {
+    return x1 * x1 + 8 * x2 * x2 - x1 * x2 + x1;
+}
+
+double dfx1(double x1, double x2) {
+    return 2 * x1 - x2 + 1;
+}
+
+double dfx2(double x1, double x2) {
+    return 16 * x2 - x1;
+}
+
+double tk(double x1, double x2) {
+    return (5 * x1 * x1 - 36 * x1 * x2 + 4 * x1 + 257 * x2 * x2 - 2 * x2 + 1)
+         / (28 * x1 * x1 - 585 * x1 * x2 + 10 * x1 + 4130 * x2 * x2 - 36 * x2 + 2);
+}
+
+int main() {
+    double x1 = 1.5, x2 = 0.1;
+    double E1 = 0.2, E2 = 0.5;
+    int M = 10;
+    int k = 0;
+    double newx1, newx2;
+    bool stopNext = false;
+    string stopReason = "Algorithm did not converge (unknown reason)";
+
+    while (true) {
+        cout << "\nk = " << k;
+        cout << "\nx = (" << x1 << " ; " << x2 << ")\n";
+        double dx1 = dfx1(x1, x2);
+        double dx2 = dfx2(x1, x2);
+        double gradNorm = sqrt(dx1 * dx1 + dx2 * dx2);
+
+        // Условие по градиенту или превышение максимума
+        if ((gradNorm < E1 || k >= M) && stopNext) {
+            if (gradNorm < E1) {
+                stopReason = "Gradient norm became smaller than E1 for two consecutive iterations";
+            } else {
+                stopReason = "Reached maximum number of iterations (M) for two consecutive checks";
+            }
+            break;
+        } else if (gradNorm < E1 || k >= M) {
+            stopNext = true;
+        }
+
+        newx1 = x1 - tk(x1, x2) * dx1;
+        newx2 = x2 - tk(x1, x2) * dx2;
+
+        double stepNorm = sqrt(pow(newx1 - x1, 2) + pow(newx2 - x2, 2));
+        double funcDiff = abs(f(newx1, newx2) - f(x1, x2));
+
+        if (stepNorm < E2 && funcDiff < E2) {
+            if (stopNext) {
+                x1 = newx1;
+                x2 = newx2;
+                stopReason = "Step norm and function difference became smaller than E2 for two consecutive iterations";
+                break;
+            } else {
+                stopNext = true;
+            }
+        }
+
+        x1 = newx1;
+        x2 = newx2;
+        k++;
+    }
+
+    cout << "\nIterations: " << k;
+    cout << "\nStopping reason: " << stopReason;
+    cout << "\nx* = (" << x1 << " , " << x2 << ")\n";
+    cout << "f(x*) = " << f(x1, x2) << "\n";
+
+    return 0;
+}
+
