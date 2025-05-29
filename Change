@@ -1,0 +1,311 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+double f(double x1, double x2) {
+    return x1 * x1 + 8 * x2 * x2 - x1 * x2 + x1;
+}
+
+double dfx1(double x1, double x2) {
+    return 2 * x1 - x2 + 1;
+}
+
+double dfx2(double x1, double x2) {
+    return 16 * x2 - x1;
+}
+
+double tk(double x1, double x2) {
+    return (5 * x1 * x1 - 36 * x1 * x2 + 4 * x1 + 257 * x2 * x2 - 2 * x2 + 1)
+         / (28 * x1 * x1 - 585 * x1 * x2 + 10 * x1 + 4130 * x2 * x2 - 36 * x2 + 2);
+}
+
+int main() {
+    double x1 = 1.5, x2 = 0.1;
+    double E1 = 0.2, E2 = 0.5;
+    int M = 10;
+    int k = 0;
+    double newx1, newx2;
+    bool stopNext = false;
+
+    while (true) {
+        cout << "\nk = " << k;
+        cout << "\nx = (" << x1 << " ; " << x2 << ")\n";
+        double dx1 = dfx1(x1, x2);
+        double dx2 = dfx2(x1, x2);
+
+        // Условие по градиенту или превышение максимума
+        if ((sqrt(dx1 * dx1 + dx2 * dx2) < E1 || k >= M) && stopNext) {
+            break;
+        } else if (sqrt(dx1 * dx1 + dx2 * dx2) < E1 || k >= M) {
+            stopNext = true;
+        }
+
+        newx1 = x1 - tk(x1, x2) * dx1;
+        newx2 = x2 - tk(x1, x2) * dx2;
+
+        if (sqrt(pow(newx1 - x1, 2) + pow(newx2 - x2, 2)) < E2 &&
+            abs(f(newx1, newx2) - f(x1, x2)) < E2) {
+            if (stopNext) {
+                x1 = newx1;
+                x2 = newx2;
+                break;
+            } else {
+                stopNext = true;
+            }
+        }
+
+        x1 = newx1;
+        x2 = newx2;
+        k++;
+    }
+
+    cout << "\nIterations: " << k;
+    cout << "\nx* = (" << x1 << " , " << x2 << ")\n";
+    cout << "f(x*) = " << f(x1, x2) << "\n";
+
+    return 0;
+}
+
+
+
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+double f(double x1, double x2) {
+    return x1 * x1 + 8 * x2 * x2 - x1 * x2 + x1;
+}
+
+double dfx1(double x1, double x2) {
+    return 2 * x1 - x2 + 1;
+}
+
+double dfx2(double x1, double x2) {
+    return 16 * x2 - x1;
+}
+
+int main() {
+    double x[2] = {1.5, 0.1};
+    double dx[2], dk[2];
+    double newx[2];
+    double Hrev[4] = {0.51613, 0.03125, 0.03125, 0.0625};
+    double E1 = 0.1, E2 = 0.15;
+    int M = 10;
+    int k = 0;
+    bool stopNext = false;
+
+    while (true) {
+        cout << "Ank = " << k;
+        cout << " Anx" << k << " = (" << x[0] << ", " << x[1] << ")\n";
+
+        dx[0] = dfx1(x[0], x[1]);
+        dx[1] = dfx2(x[0], x[1]);
+
+        bool gradCond = sqrt(dx[0] * dx[0] + dx[1] * dx[1]) < E1;
+        bool iterCond = k >= M;
+
+        if ((gradCond || iterCond) && stopNext) {
+            break;
+        } else if (gradCond || iterCond) {
+            stopNext = true;
+        }
+
+        // Вычисление направления dk
+        if (Hrev[0] * Hrev[3] - Hrev[2] * Hrev[1] > 0) {
+            dk[0] = -1 * (Hrev[0] * dx[0] + Hrev[1] * dx[1]);
+            dk[1] = -1 * (Hrev[2] * dx[0] + Hrev[3] * dx[1]);
+        } else {
+            dk[0] = -1 * dx[0];
+            dk[1] = -1 * dx[1];
+        }
+
+        newx[0] = x[0] + dk[0];
+        newx[1] = x[1] + dk[1];
+
+        bool stepCond = sqrt(pow(newx[0] - x[0], 2) + pow(newx[1] - x[1], 2)) < E2;
+        bool funcCond = abs(f(newx[0], newx[1]) - f(x[0], x[1])) < E2;
+
+        if (stepCond && funcCond) {
+            x[0] = newx[0];
+            x[1] = newx[1];
+            if (stopNext)
+                break;
+            stopNext = true;
+        }
+
+        x[0] = newx[0];
+        x[1] = newx[1];
+        k++;
+    }
+
+    cout << "\niterations: " << k;
+    cout << "\nAnx = (" << x[0] << ", " << x[1] << ")\n";
+    cout << "f(x)= " << f(x[0], x[1]) << "\n";
+    return 0;
+}
+
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+double f(double x1, double x2) {
+    return x1 * x1 + 8 * x2 * x2 - x1 * x2 + x1;
+}
+
+double dfx1(double x1, double x2) {
+    return 2 * x1 - x2 + 1;
+}
+
+double dfx2(double x1, double x2) {
+    return 16 * x2 - x1;
+}
+
+double t_k(double x1, double x2, double d1, double d2) {
+    return (-2 * x1 * d1 + x2 * d1 - d1 - 16 * x2 * d2 + x1 * d2) / (2 * d1 * d1 + 16 * d2 * d2 - 2 * d1 * d2);
+}
+
+int main() {
+    double x[2] = {1.5, 0.1};
+    double dx[2], dk[2];
+    double newx[2];
+    double Hrev[4] = {0.51613, 0.03125, 0.03125, 0.0625};
+    double E1 = 0.1, E2 = 0.15;
+    int M = 10;
+    int k = 0;
+    bool stopNext = false;
+
+    while (true) {
+        cout << "Ank = " << k;
+        cout << " Anx" << k << " = (" << x[0] << ", " << x[1] << ")\n";
+
+        dx[0] = dfx1(x[0], x[1]);
+        dx[1] = dfx2(x[0], x[1]);
+
+        if ((sqrt(dx[0]*dx[0] + dx[1]*dx[1]) < E1 || k >= M) && stopNext) {
+            break;
+        } else if (sqrt(dx[0]*dx[0] + dx[1]*dx[1]) < E1 || k >= M) {
+            stopNext = true;
+        }
+
+        if (Hrev[0] * Hrev[3] - Hrev[2] * Hrev[1] > 0) {
+            dk[0] = -1 * (Hrev[0] * dx[0] + Hrev[1] * dx[1]);
+            dk[1] = -1 * (Hrev[2] * dx[0] + Hrev[3] * dx[1]);
+        } else {
+            dk[0] = -1 * dx[0];
+            dk[1] = -1 * dx[1];
+        }
+
+        double tk_val = t_k(x[0], x[1], dk[0], dk[1]);
+        newx[0] = x[0] + tk_val * dk[0];
+        newx[1] = x[1] + tk_val * dk[1];
+
+        if (sqrt(pow(newx[0] - x[0], 2) + pow(newx[1] - x[1], 2)) < E2 &&
+            abs(f(newx[0], newx[1]) - f(x[0], x[1])) < E2) {
+            if (stopNext) {
+                x[0] = newx[0];
+                x[1] = newx[1];
+                break;
+            } else {
+                stopNext = true;
+            }
+        }
+
+        x[0] = newx[0];
+        x[1] = newx[1];
+        k++;
+    }
+
+    cout << "\niterations: " << k;
+    cout << "\nx= (" << x[0] << ", " << x[1] << ")\n";
+    cout << "f(x)= " << f(x[0], x[1]) << "\n";
+    return 0;
+}
+
+#include <iostream>  
+#include <cmath>     
+using namespace std;
+
+double f(double x1, double x2) {
+    return x1 * x1 + 8 * x2 * x2 - x1 * x2 + x1; 
+}
+
+double dfx1(double x1, double x2) {
+    return 2 * x1 - x2 + 1;
+}
+
+double dfx2(double x1, double x2) {
+    return 16 * x2 - x1;
+}
+
+double t_k(double x1, double x2, double d1, double d2) {
+    return (-2 * x1 * d1 + x2 * d1 - d1 - 16 * x2 * d2 + x1 * d2)
+         / (2 * d1 * d1 + 16 * d2 * d2 - 2 * d1 * d2);
+}
+
+int main() {
+    double x[2] = {1.5, 0.1};
+    double dx[2] = {0, 0}, dk[2] = {0, 0}, olddx[2] = {0, 0};
+    double newx[2];
+    double E1 = 0.1, E2 = 0.15;
+    double B;
+    int M = 10;
+    int k = 0, iter = -1;
+    bool flag = false;
+
+    while (true) {
+        cout << " Ank = " << k;
+        cout << " Anx" << k << " = (" << x[0] << ", " << x[1] << ")\n";
+
+        olddx[0] = dx[0];
+        olddx[1] = dx[1];
+
+        dx[0] = dfx1(x[0], x[1]);
+        dx[1] = dfx2(x[0], x[1]);
+
+        // Условие остановки по градиенту или итерациям
+        if (sqrt(dx[0] * dx[0] + dx[1] * dx[1]) < E1 || k >= M) {
+            if (flag && iter == k - 1)
+                break;
+            flag = true;
+            iter = k;
+        }
+
+        if (k == 0) {
+            dk[0] = -dx[0];
+            dk[1] = -dx[1];
+        } else {
+            double temp = sqrt(dx[0] * dx[0] + dx[1] * dx[1]) /
+                           sqrt(olddx[0] * olddx[0] + olddx[1] * olddx[1]);
+            B = temp * temp;
+            dk[0] = -dx[0] + B * dk[0];
+            dk[1] = -dx[1] + B * dk[1];
+        }
+
+        newx[0] = x[0] + t_k(x[0], x[1], dk[0], dk[1]) * dk[0];
+        newx[1] = x[1] + t_k(x[0], x[1], dk[0], dk[1]) * dk[1];
+
+        // Условие остановки по шагу и значению функции
+        if (sqrt(pow(newx[0] - x[0], 2) + pow(newx[1] - x[1], 2)) < E2 &&
+            abs(f(newx[0], newx[1]) - f(x[0], x[1])) < E2) {
+            x[0] = newx[0];
+            x[1] = newx[1];
+            if (flag && iter == k - 1)
+                break;
+            flag = true;
+            iter = k;
+        }
+
+        x[0] = newx[0];
+        x[1] = newx[1];
+        k++;
+    }
+
+    cout << "\niterations: " << k;
+    cout << "\nAnx = (" << x[0] << ", " << x[1] << ")\n";
+    cout << "f(x)= " << f(x[0], x[1]) << "\n";
+
+    return 0;
+}
+
