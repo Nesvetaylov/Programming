@@ -1,0 +1,248 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <random>
+#include <algorithm>
+#include <iomanip>
+
+// Класс для генерации случайных чисел
+class RandomGenerator {
+private:
+    std::random_device rd;
+    std::mt19937 gen;
+    
+public:
+    RandomGenerator() : gen(rd()) {}
+    
+    // Равномерное распределение для интервалов между клиентами
+    double uniform(double a, double b) {
+        std::uniform_real_distribution<double> dist(a, b);
+        return dist(gen);
+    }
+    
+    // Равномерное распределение для сложности задачи (1-10)
+    int uniform_int(int min, int max) {
+        std::uniform_int_distribution<int> dist(min, max);
+        return dist(gen);
+    }
+};
+
+// Структура для хранения информации о клиенте
+struct Client {
+    int id;
+    double arrival_time;    // Время появления
+    int complexity;         // Сложность обслуживания (1-10)
+    
+    Client(int _id, double _arrival_time, int _complexity)
+        : id(_id), arrival_time(_arrival_time), complexity(_complexity) {}
+};
+
+// Класс агента
+class Agent {
+private:
+    std::queue<Client> queue;          // Очередь клиентов
+    double current_time;               // Текущее время агента
+    double total_work_time;            // Общее время работы
+    int clients_served;                // Количество обслуженных клиентов
+    
+public:
+    int id;
+    double current_load;               // Текущая загрузка
+    
+    Agent(int _id) : id(_id), current_time(0.0), total_work_time(0.0), 
+                     clients_served(0), current_load(0.0) {}
+    
+    // Добавить клиента в очередь
+    void addClient(const Client& client) {
+        queue.push(client);
+        current_load += client.complexity;
+    }
+    
+    // Обработать клиентов до указанного времени
+    void processUntil(double global_time) {
+        while (current_time < global_time && !queue.empty()) {
+            // Взять следующего клиента из очереди
+            Client client = queue.front();
+            
+            // Если клиент еще не прибыл, ждем
+            if (current_time < client.arrival_time) {
+                current_time = client.arrival_time;
+            }
+            
+            // Обслужить клиента
+            double service_end = current_time + client.complexity;
+            
+            // Если время обслуживания выходит за пределы global_time, 
+            // останавливаемся на текущем клиенте
+            if (service_end > global_time) {
+                // Учитываем частичное обслуживание в загрузке
+                double partial_service = global_time - current_time;
+                current_load -= partial_service;
+                current_time = global_time;
+                break;
+            }
+            
+            // Полное обслуживание клиента
+            current_time = service_end;
+            total_work_time += client.complexity;
+            clients_served++;
+            current_load -= client.complexity;
+            queue.pop();
+        }
+        
+        // Обновляем текущее время
+        if (current_time < global_time) {
+            current_time = global_time;
+        }
+    }
+    
+    // Получить статистику
+    int getClientsServed() const { return clients_served; }
+    double getTotalWorkTime() const { return total_work_time; }
+    double getCurrentLoad() const { return current_load; }
+    
+    // Получить размер очереди
+    size_t getQueueSize() const { return queue.size(); }
+};
+
+// Класс системы
+class MultiAgentSystem {
+private:
+    std::vector<Agent> agents;
+    RandomGenerator rng;
+    double a, b;  // Параметры равномерного распределения для интервалов
+    int total_clients_target;
+    double current_time;
+    
+public:
+    MultiAgentSystem(int n_agents, double _a, double _b, int m) 
+        : a(_a), b(_b), total_clients_target(m), current_time(0.0) {
+        // Создаем агентов
+        for (int i = 0; i < n_agents; ++i) {
+            agents.emplace_back(i + 1);  // ID начинаются с 1
+        }
+    }
+    
+    // Запуск моделирования
+    void runSimulation() {
+        std::cout << "=== Запуск многоагентного моделирования ===" << std::endl;
+        std::cout << "Агентов: " << agents.size() << std::endl;
+        std::cout << "Целевое количество клиентов: " << total_clients_target << std::endl;
+        std::cout << "Интервалы между клиентами: [" << a << ", " << b << "]" << std::endl;
+        std::cout << "----------------------------------------" << std::endl;
+        
+        int clients_processed = 0;
+        double next_client_time = 0.0;
+        
+        // Главный цикл моделирования
+        while (clients_processed < total_clients_target) {
+            // Генерируем время появления следующего клиента
+            if (clients_processed == 0) {
+                // Первый клиент
+                next_client_time = rng.uniform(a, b);
+            } else {
+                next_client_time += rng.uniform(a, b);
+            }
+            
+            // Обрабатываем всех агентов до времени появления нового клиента
+            for (auto& agent : agents) {
+                agent.processUntil(next_client_time);
+            }
+            
+            current_time = next_client_time;
+            
+            // Создаем нового клиента
+            int complexity = rng.uniform_int(1, 10);
+            Client new_client(clients_processed + 1, current_time, complexity);
+            
+            // Выбираем агента с минимальной загрузкой
+            Agent* selected_agent = &agents[0];
+            double min_load = selected_agent->getCurrentLoad();
+            
+            for (auto& agent : agents) {
+                if (agent.getCurrentLoad() < min_load) {
+                    min_load = agent.getCurrentLoad();
+                    selected_agent = &agent;
+                }
+                // При равной загрузке берем первого в списке (уже реализовано)
+            }
+            
+            // Добавляем клиента выбранному агенту
+            selected_agent->addClient(new_client);
+            clients_processed++;
+            
+            // Вывод информации о новом клиенте
+            std::cout << "Клиент " << new_client.id << " (сложность: " << complexity 
+                      << ") прибыл в " << std::fixed << std::setprecision(2) << current_time
+                      << ", назначен агенту " << selected_agent->id 
+                      << " (загрузка: " << std::fixed << std::setprecision(2) 
+                      << selected_agent->getCurrentLoad() << ")" << std::endl;
+        }
+        
+        // Завершаем обработку всех оставшихся клиентов
+        double max_completion_time = 0;
+        for (auto& agent : agents) {
+            // Обрабатываем до полного завершения всех задач
+            agent.processUntil(1e9);  // Большое число для завершения всех задач
+            double agent_finish_time = agent.getTotalWorkTime();
+            if (agent_finish_time > max_completion_time) {
+                max_completion_time = agent_finish_time;
+            }
+        }
+        
+        current_time = max_completion_time;
+        
+        // Формируем и выводим отчет
+        generateReport();
+    }
+    
+private:
+    // Генерация отчета
+    void generateReport() {
+        std::cout << "\n=== ОТЧЕТ О РАБОТЕ СИСТЕМЫ ===" << std::endl;
+        std::cout << "Общее время работы системы: " << std::fixed << std::setprecision(2) 
+                  << current_time << std::endl;
+        
+        // Сортируем агентов для отчета
+        std::vector<Agent> sorted_agents = agents;
+        std::sort(sorted_agents.begin(), sorted_agents.end(), 
+                  [](const Agent& a1, const Agent& a2) {
+                      if (a1.getClientsServed() != a2.getClientsServed()) {
+                          return a1.getClientsServed() > a2.getClientsServed();
+                      }
+                      return a1.getTotalWorkTime() < a2.getTotalWorkTime();
+                  });
+        
+        std::cout << "----------------------------------------" << std::endl;
+        std::cout << std::setw(4) << "ID" << std::setw(10) << "Клиенты" 
+                  << std::setw(12) << "Время" << std::setw(15) << "Эффективность" << std::endl;
+        std::cout << "----------------------------------------" << std::endl;
+        
+        for (const auto& agent : sorted_agents) {
+            double efficiency = (agent.getClientsServed() > 0) 
+                              ? agent.getTotalWorkTime() / agent.getClientsServed() 
+                              : 0.0;
+            
+            std::cout << std::setw(4) << agent.id 
+                      << std::setw(10) << agent.getClientsServed()
+                      << std::setw(12) << std::fixed << std::setprecision(2) 
+                      << agent.getTotalWorkTime()
+                      << std::setw(15) << std::fixed << std::setprecision(2) 
+                      << efficiency << std::endl;
+        }
+    }
+};
+
+int main() {
+    // Параметры системы
+    int n_agents = 3;      // Количество агентов
+    double a = 0.5;        // Минимальный интервал между клиентами
+    double b = 2.0;        // Максимальный интервал между клиентами  
+    int m = 20;            // Количество клиентов для обслуживания
+    
+    // Создаем и запускаем систему
+    MultiAgentSystem system(n_agents, a, b, m);
+    system.runSimulation();
+    
+    return 0;
+}
