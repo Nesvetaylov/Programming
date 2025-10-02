@@ -1,3 +1,0 @@
-﻿  Server_TCP.cpp
-F:\ComputersNetwork\Server_TCP\Server_TCP\Server_TCP.cpp(41,47): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-  Server_TCP.vcxproj -> F:\ComputersNetwork\Server_TCP\x64\Debug\Server_TCP.exe
