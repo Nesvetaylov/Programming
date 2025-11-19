@@ -1,0 +1,355 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1/"
+     xml:base="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Генерирует -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Генерирует">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#AssignmentManager"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#WokloadReport"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Имеет -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Имеет">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Task"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Priority"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Назначен -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Назначен">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Employee"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Assignment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Назначено -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Назначено">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Task"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Assignment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Находится_в -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Находится_в">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Task"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#TaskStatus"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Обладает -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Обладает">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Employee"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Skill"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Содержит -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Содержит">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Project"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Task"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Требует -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Требует">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Task"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Skill"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Управляется -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Управляется">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Employee"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#AssignmentManager"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Assignment -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Assignment"/>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#AssignmentManager -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#AssignmentManager"/>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Employee -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Employee"/>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Priority -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Priority">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Task"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Project -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Project"/>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Skill -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Skill"/>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Task -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Task"/>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#TaskStatus -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#TaskStatus">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Task"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#WokloadReport -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#WokloadReport"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Figma -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Figma">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Skill"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Python -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Python">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Skill"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#SQL -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#SQL">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Skill"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Внутренний_обучающий_портал -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Внутренний_обучающий_портал">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Project"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Еженедельный_отчет_по_команде_разработки -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Еженедельный_отчет_по_команде_разработки">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#WokloadReport"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Иванов_И.И. -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Иванов_И.И.">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Employee"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Модернизация_ERP-системы -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Модернизация_ERP-системы">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Project"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Написание_технического_задания_для_редизайна -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Написание_технического_задания_для_редизайна">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Task"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Отчет_о_загрузке_за_Ноябрь -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Отчет_о_загрузке_за_Ноябрь">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#WokloadReport"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Петров_С.И. -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Петров_С.И.">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Employee"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Планировщик_Срочных_Задач -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Планировщик_Срочных_Задач">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#AssignmentManager"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Платформа_Новый_Горизонт -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Платформа_Новый_Горизонт">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Project"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Разработка_нового_блока_интерфейса -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Разработка_нового_блока_интерфейса">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Task"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Сводный_отчет_о_завершенных_назначениях -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Сводный_отчет_о_завершенных_назначениях">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#WokloadReport"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Система_Автоматического_Распределения -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Система_Автоматического_Распределения">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#AssignmentManager"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Супервайзер_Загрузки -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Супервайзер_Загрузки">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#AssignmentManager"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Тестирование_модуля_оплаты -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Тестирование_модуля_оплаты">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Task"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Чеуж_А.А. -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Чеуж_А.А.">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Employee"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Назначение_T01/E03 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Назначение_T01/E03">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Assignment"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Назначение_T02/E02 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Назначение_T02/E02">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Assignment"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Назначение_T03/E01 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Назначение_T03/E01">
+        <rdf:type rdf:resource="http://www.semanticweb.org/xe/ontologies/2025/10/lab_1#Assignment"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
+
